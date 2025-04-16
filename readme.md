@@ -115,15 +115,11 @@ Runs on: http://localhost:5173
 
 ### 5. Usage
 
-Open http://localhost:5173
-
-Register a new account or login with existing credentials
-
-Create, edit, and manage your tasks
-
-Toggle task status as pending/completed
-
-Logout when done
+- Open http://localhost:5173
+- Register a new account or login with existing credentials
+- Create, edit, and manage your tasks
+- Toggle task status as pending/completed
+- Logout when done
 
 ### 6.Unit tests
 
