@@ -143,3 +143,221 @@ Backend Errors: Check the terminal output
 
 Frontend Errors: Check browser console (F12)
 
+## API Endpoint Documentation
+
+### Authentication Endpoints
+
+#### Register a New User
+
+URL: POST /api/auth/register
+Description: Creates a new user account
+Authentication: None
+Request Body:
+
+```JSON
+
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+Success Response (201 Created):
+
+```JSON
+
+{
+  "status": "success",
+  "data": {
+    "id": "number",
+    "username": "string",
+    "token": "string"
+  }
+}
+```
+
+Error Responses:
+400 Bad Request: Username or password missing
+400 Bad Request: User already exists
+
+#### Login
+
+URL: POST /api/auth/login
+Description: Authenticates a user and returns a JWT token
+Authentication: None
+Request Body:
+
+```JSON
+
+{
+  "username": "string",
+  "password": "string"
+}
+```
+Success Response (200 OK):
+
+```JSON
+
+{
+  "status": "success",
+  "data": {
+    "id": "number",
+    "username": "string",
+    "token": "string"
+  }
+}
+```
+
+Error Responses:
+400 Bad Request: Username or password missing
+401 Unauthorized: Invalid credentials
+
+### Task Endpoints
+All task endpoints require authentication via JWT token in the Authorization header:
+
+
+Authorization: Bearer <token>
+
+#### Get All Tasks
+
+URL: GET /api/tasks
+Description: Retrieves all tasks for the authenticated user
+Authentication: Required
+
+Success Response (200 OK):
+
+```JSON
+
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "number",
+      "title": "string",
+      "description": "string | null",
+      "status": "PENDING | COMPLETED",
+      "userId": "number",
+      "createdAt": "string (ISO date)",
+      "updatedAt": "string (ISO date)"
+    }
+  ]
+}
+```
+
+Error Responses:
+401 Unauthorized: No token provided or invalid token
+
+#### Create a Task
+URL: POST /api/tasks
+Description: Creates a new task for the authenticated user
+Authentication: Required
+Request Body:
+
+```JSON
+
+{
+  "title": "string",
+  "description": "string (optional)",
+  "status": "PENDING | COMPLETED (optional, defaults to PENDING)"
+}
+```
+Success Response (201 Created):
+
+```JSON
+
+{
+  "status": "success",
+  "data": {
+    "id": "number",
+    "title": "string",
+    "description": "string | null",
+    "status": "PENDING | COMPLETED",
+    "userId": "number",
+    "createdAt": "string (ISO date)",
+    "updatedAt": "string (ISO date)"
+  }
+}
+```
+Error Responses:
+400 Bad Request: Title is missing
+401 Unauthorized: No token provided or invalid token
+
+#### Update a Task
+URL: PUT /api/tasks/:id
+Description: Updates an existing task
+Authentication: Required
+URL Parameters:
+id: Task ID
+Request Body (all fields optional):
+
+```JSON
+
+{
+  "title": "string",
+  "description": "string",
+  "status": "PENDING | COMPLETED"
+}
+```
+
+Success Response (200 OK):
+
+```JSON
+
+{
+  "status": "success",
+  "data": {
+    "id": "number",
+    "title": "string",
+    "description": "string | null",
+    "status": "PENDING | COMPLETED",
+    "userId": "number",
+    "createdAt": "string (ISO date)",
+    "updatedAt": "string (ISO date)"
+  }
+}
+```
+
+Error Responses:
+401 Unauthorized: No token provided or invalid token
+403 Forbidden: User does not own the task
+404 Not Found: Task not found
+
+#### Delete a Task
+URL: DELETE /api/tasks/:id
+Description: Deletes a task
+Authentication: Required
+URL Parameters:
+id: Task ID
+Success Response (200 OK):
+
+```JSON
+
+{
+  "status": "success",
+  "message": "Task deleted"
+}
+```
+
+Error Responses:
+401 Unauthorized: No token provided or invalid token
+403 Forbidden: User does not own the task
+404 Not Found: Task not found
+Error Response Format
+All API errors follow this format:
+
+```JSON
+
+{
+  "status": "error",
+  "message": "Error description"
+}
+```
+
+### Authentication
+The API uses JWT (JSON Web Token) for authentication. After registering or logging in, you'll receive a token that should be included in the Authorization header for all protected endpoints:
+
+```
+Authorization: Bearer <your_token>
+```
+
+Tokens expire after 30 days, after which you'll need to log in again to get a new token.
