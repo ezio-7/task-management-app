@@ -9,6 +9,7 @@ A full-stack task management application with user authentication, built using m
 - Create, read, update, and delete tasks
 - Task status management (pending/completed)
 - Responsive UI with modern design
+- unit tets for backend
 
 ---
 
@@ -137,11 +138,10 @@ npm test
 ```
 
 ### 7.Troubleshooting
-Database Issues: Verify your PostgreSQL credentials and ensure the server is running
 
-Backend Errors: Check the terminal output
-
-Frontend Errors: Check browser console (F12)
+- Database Issues: Verify your PostgreSQL credentials and ensure the server is running
+- Backend Errors: Check the terminal output
+- Frontend Errors: Check browser console (F12)
 
 ## API Endpoint Documentation
 
@@ -149,10 +149,10 @@ Frontend Errors: Check browser console (F12)
 
 #### Register a New User
 
-URL: POST /api/auth/register
-Description: Creates a new user account
-Authentication: None
-Request Body:
+- URL: POST /api/auth/register
+- Description: Creates a new user account
+- Authentication: None
+- Request Body:
 
 ```JSON
 
@@ -162,7 +162,7 @@ Request Body:
 }
 ```
 
-Success Response (201 Created):
+##### Success Response (201 Created):
 
 ```JSON
 
@@ -176,16 +176,16 @@ Success Response (201 Created):
 }
 ```
 
-Error Responses:
-400 Bad Request: Username or password missing
-400 Bad Request: User already exists
+##### Error Responses:
+- 400 Bad Request: Username or password missing
+- 400 Bad Request: User already exists
 
 #### Login
 
-URL: POST /api/auth/login
-Description: Authenticates a user and returns a JWT token
-Authentication: None
-Request Body:
+- URL: POST /api/auth/login
+- Description: Authenticates a user and returns a JWT token
+- Authentication: None
+- Request Body:
 
 ```JSON
 
@@ -194,7 +194,7 @@ Request Body:
   "password": "string"
 }
 ```
-Success Response (200 OK):
+##### Success Response (200 OK):
 
 ```JSON
 
@@ -208,23 +208,24 @@ Success Response (200 OK):
 }
 ```
 
-Error Responses:
-400 Bad Request: Username or password missing
-401 Unauthorized: Invalid credentials
+##### Error Responses:
+- 400 Bad Request: Username or password missing
+- 401 Unauthorized: Invalid credentials
 
 ### Task Endpoints
-All task endpoints require authentication via JWT token in the Authorization header:
+##### All task endpoints require authentication via JWT token in the Authorization header:
 
-
+```
 Authorization: Bearer <token>
+```
 
 #### Get All Tasks
 
-URL: GET /api/tasks
-Description: Retrieves all tasks for the authenticated user
-Authentication: Required
+- URL: GET /api/tasks
+- Description: Retrieves all tasks for the authenticated user
+- Authentication: Required
 
-Success Response (200 OK):
+##### Success Response (200 OK):
 
 ```JSON
 
@@ -244,14 +245,15 @@ Success Response (200 OK):
 }
 ```
 
-Error Responses:
-401 Unauthorized: No token provided or invalid token
+##### Error Responses:
+- 401 Unauthorized: No token provided or invalid token
 
 #### Create a Task
-URL: POST /api/tasks
-Description: Creates a new task for the authenticated user
-Authentication: Required
-Request Body:
+
+- URL: POST /api/tasks
+- Description: Creates a new task for the authenticated user
+- Authentication: Required
+- Request Body:
 
 ```JSON
 
@@ -261,7 +263,8 @@ Request Body:
   "status": "PENDING | COMPLETED (optional, defaults to PENDING)"
 }
 ```
-Success Response (201 Created):
+
+##### Success Response (201 Created):
 
 ```JSON
 
@@ -278,17 +281,18 @@ Success Response (201 Created):
   }
 }
 ```
-Error Responses:
-400 Bad Request: Title is missing
-401 Unauthorized: No token provided or invalid token
+
+##### Error Responses:
+- 400 Bad Request: Title is missing
+- 401 Unauthorized: No token provided or invalid token
 
 #### Update a Task
-URL: PUT /api/tasks/:id
-Description: Updates an existing task
-Authentication: Required
-URL Parameters:
-id: Task ID
-Request Body (all fields optional):
+
+- URL: PUT /api/tasks/:id
+- Description: Updates an existing task
+- Authentication: Required
+- URL Parameters: id: Task ID
+- Request Body (all fields optional):
 
 ```JSON
 
@@ -299,7 +303,7 @@ Request Body (all fields optional):
 }
 ```
 
-Success Response (200 OK):
+##### Success Response (200 OK):
 
 ```JSON
 
@@ -317,18 +321,19 @@ Success Response (200 OK):
 }
 ```
 
-Error Responses:
-401 Unauthorized: No token provided or invalid token
-403 Forbidden: User does not own the task
-404 Not Found: Task not found
+##### Error Responses:
+- 401 Unauthorized: No token provided or invalid token
+- 403 Forbidden: User does not own the task
+- 404 Not Found: Task not found
 
 #### Delete a Task
-URL: DELETE /api/tasks/:id
-Description: Deletes a task
-Authentication: Required
-URL Parameters:
-id: Task ID
-Success Response (200 OK):
+
+- URL: DELETE /api/tasks/:id
+- Description: Deletes a task
+- Authentication: Required
+- URL Parameters: id: Task ID
+
+##### Success Response (200 OK):
 
 ```JSON
 
@@ -338,11 +343,12 @@ Success Response (200 OK):
 }
 ```
 
-Error Responses:
-401 Unauthorized: No token provided or invalid token
-403 Forbidden: User does not own the task
-404 Not Found: Task not found
-Error Response Format
+##### Error Responses:
+- 401 Unauthorized: No token provided or invalid token
+- 403 Forbidden: User does not own the task
+- 404 Not Found: Task not found
+  
+#### Error Response Format
 All API errors follow this format:
 
 ```JSON
