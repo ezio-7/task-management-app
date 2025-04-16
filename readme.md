@@ -125,6 +125,18 @@ Toggle task status as pending/completed
 Logout when done
 
 ### 6.Troubleshooting
+
+#### Testing Backend
+
+cd into your backend directory
+
+run 
+
+```bash
+npm test
+```
+
+### 7.Troubleshooting
 Database Issues: Verify your PostgreSQL credentials and ensure the server is running
 
 Backend Errors: Check the terminal output
