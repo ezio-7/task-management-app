@@ -124,7 +124,7 @@ Toggle task status as pending/completed
 
 Logout when done
 
-### 6.Troubleshooting
+### 6.Unit tests
 
 #### Testing Backend
 
