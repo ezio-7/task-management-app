@@ -38,7 +38,6 @@ describe('Auth Endpoints', () => {
     });
 
     it('should return 400 if user already exists', async () => {
-      // Create a user first
       await request(app)
         .post('/api/auth/register')
         .send({
@@ -46,7 +45,6 @@ describe('Auth Endpoints', () => {
           password: 'password123'
         });
       
-      // Try to create the same user again
       const res = await request(app)
         .post('/api/auth/register')
         .send({
@@ -62,7 +60,6 @@ describe('Auth Endpoints', () => {
 
   describe('POST /api/auth/login', () => {
     beforeEach(async () => {
-      // Create a user for login tests
       await request(app)
         .post('/api/auth/register')
         .send({

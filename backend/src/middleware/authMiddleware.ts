@@ -14,7 +14,6 @@ export const protect = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        // Get token from header
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -27,13 +26,11 @@ export const protect = async (
 
         const token = authHeader.split(' ')[1];
 
-        // Verify token
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET as string
         ) as JwtPayload;
 
-        // Get user from token
         const user = await prisma.user.findUnique({
             where: { id: decoded.id }
         });
@@ -46,7 +43,6 @@ export const protect = async (
             return;
         }
 
-        // Set user in request
         req.user = { id: user.id };
         next();
     } catch (error) {

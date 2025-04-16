@@ -28,7 +28,6 @@ const initialState: TaskState = {
     message: '',
 };
 
-// Get all tasks
 export const getTasks = createAsyncThunk('tasks/getAll', async (_, thunkAPI) => {
     try {
         return await taskService.getTasks();
@@ -38,7 +37,6 @@ export const getTasks = createAsyncThunk('tasks/getAll', async (_, thunkAPI) => 
     }
 });
 
-// Create new task
 export const createTask = createAsyncThunk(
     'tasks/create',
     async (taskData: { title: string; description?: string; status?: string }, thunkAPI) => {
@@ -51,7 +49,6 @@ export const createTask = createAsyncThunk(
     }
 );
 
-// Update task
 export const updateTask = createAsyncThunk(
     'tasks/update',
     async (
@@ -70,7 +67,6 @@ export const updateTask = createAsyncThunk(
     }
 );
 
-// Delete task
 export const deleteTask = createAsyncThunk('tasks/delete', async (taskId: number, thunkAPI) => {
     try {
         await taskService.deleteTask(taskId);

@@ -17,7 +17,6 @@ interface AuthState {
     message: string;
 }
 
-// Get user from localStorage
 const storedUser = localStorage.getItem('user');
 const user = storedUser ? JSON.parse(storedUser) : null;
 
@@ -29,7 +28,6 @@ const initialState: AuthState = {
     message: '',
 };
 
-// Check if user is authenticated
 export const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
     try {
         const user = localStorage.getItem('user');
@@ -42,7 +40,6 @@ export const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
     }
 });
 
-// Register user
 export const register = createAsyncThunk(
     'auth/register',
     async (userData: { username: string; password: string }, thunkAPI) => {
@@ -55,7 +52,6 @@ export const register = createAsyncThunk(
     }
 );
 
-// Login user
 export const login = createAsyncThunk(
     'auth/login',
     async (userData: { username: string; password: string }, thunkAPI) => {
@@ -68,7 +64,6 @@ export const login = createAsyncThunk(
     }
 );
 
-// Logout user
 export const logout = createAsyncThunk('auth/logout', async () => {
     authService.logout();
 });

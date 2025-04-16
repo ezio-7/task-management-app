@@ -1,4 +1,3 @@
-// src/tests/tasks.test.ts
 import request from 'supertest';
 import app from '../app';
 import { PrismaClient } from '@prisma/client';
@@ -7,7 +6,6 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-// Test user data
 const testUser = {
   username: 'taskuser',
   password: 'password123'
@@ -16,13 +14,10 @@ const testUser = {
 let token: string;
 let userId: number;
 
-// Set up test user before all tests
 beforeAll(async () => {
-  // Clean up any existing data
   await prisma.task.deleteMany({});
   await prisma.user.deleteMany({});
   
-  // Create a test user directly in the database
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(testUser.password, salt);
   
@@ -35,13 +30,11 @@ beforeAll(async () => {
   
   userId = user.id;
   
-  // Generate a token
   token = jwt.sign({ id: userId }, process.env.JWT_SECRET as string, {
     expiresIn: '30d'
   });
 });
 
-// Clean up after all tests
 afterAll(async () => {
   await prisma.task.deleteMany({});
   await prisma.user.deleteMany({});
@@ -49,7 +42,6 @@ afterAll(async () => {
 });
 
 describe('Task Endpoints', () => {
-  // Clean up tasks before each test
   beforeEach(async () => {
     await prisma.task.deleteMany({});
   });
@@ -103,7 +95,6 @@ describe('Task Endpoints', () => {
 
   describe('GET /api/tasks', () => {
     beforeEach(async () => {
-      // Create some tasks for testing
       await prisma.task.create({
         data: {
           title: 'Task 1',
@@ -151,7 +142,6 @@ describe('Task Endpoints', () => {
     let taskId: number;
 
     beforeEach(async () => {
-      // Create a task for testing
       const task = await prisma.task.create({
         data: {
           title: 'Task to Update',
@@ -196,7 +186,6 @@ describe('Task Endpoints', () => {
     });
 
     it('should return 403 if user does not own the task', async () => {
-      // Create another user
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash('password123', salt);
       
@@ -207,7 +196,6 @@ describe('Task Endpoints', () => {
         }
       });
       
-      // Create a task for the other user
       const otherTask = await prisma.task.create({
         data: {
           title: 'Other User Task',
@@ -235,7 +223,6 @@ describe('Task Endpoints', () => {
     let taskId: number;
 
     beforeEach(async () => {
-      // Create a task for testing
       const task = await prisma.task.create({
         data: {
           title: 'Task to Delete',
@@ -257,7 +244,6 @@ describe('Task Endpoints', () => {
       expect(res.body).toHaveProperty('status', 'success');
       expect(res.body).toHaveProperty('message', 'Task deleted');
       
-      // Verify task is deleted
       const task = await prisma.task.findUnique({
         where: { id: taskId }
       });
@@ -276,7 +262,6 @@ describe('Task Endpoints', () => {
     });
 
     it('should return 403 if user does not own the task', async () => {
-      // Create another user
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash('password123', salt);
       
@@ -287,7 +272,6 @@ describe('Task Endpoints', () => {
         }
       });
       
-      // Create a task for the other user
       const otherTask = await prisma.task.create({
         data: {
           title: 'Other User Task',

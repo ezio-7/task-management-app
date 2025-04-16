@@ -5,21 +5,16 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-// Generate JWT
 const generateToken = (id: number) => {
     return jwt.sign({ id }, process.env.JWT_SECRET as string, {
         expiresIn: '30d'
     });
 };
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const { username, password } = req.body;
 
-        // Validate input
         if (!username || !password) {
             res.status(400).json({
                 status: 'error',
@@ -28,7 +23,6 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
             return;
         }
 
-        // Check if user exists
         const userExists = await prisma.user.findUnique({
             where: { username }
         });
@@ -41,11 +35,9 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
             return;
         }
 
-        // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user
         const user = await prisma.user.create({
             data: {
                 username,
@@ -71,14 +63,10 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     }
 };
 
-// @desc    Authenticate a user
-// @route   POST /api/auth/login
-// @access  Public
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const { username, password } = req.body;
 
-        // Validate input
         if (!username || !password) {
             res.status(400).json({
                 status: 'error',
@@ -87,7 +75,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        // Check if user exists
         const user = await prisma.user.findUnique({
             where: { username }
         });
@@ -100,7 +87,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        // Check password
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
