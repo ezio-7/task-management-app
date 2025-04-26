@@ -41,9 +41,10 @@ A full-stack task management application with user authentication, built using m
 git clone https://github.com/ezio-7/task-management-app.git
 cd task-management-app
 ```
+
 ### 2. Backend Setup
 
-#### Install Dependencies
+#### Install Dependencies Backend
 
 ```bash
 cd backend
@@ -60,7 +61,7 @@ JWT_SECRET="your-secret-key-here"
 PORT=5000
 ```
 
-Replace <username> and <password> with your actual PostgreSQL credentials.
+Replace 'username' and 'password' with your actual PostgreSQL credentials.
 
 #### Set Up the Database
 
@@ -71,13 +72,14 @@ npx prisma migrate dev --name init
 ```
 
 #### Build the Backend
+
 ```bash
 npm run build
 ```
 
 ### 3. Frontend Setup
 
-#### Install Dependencies
+#### Install Dependencies Frontend
 
 ```bash
 cd ../frontend
@@ -85,12 +87,11 @@ npm install
 ```
 
 Configure API URL (Optional)
-If your backend runs on a different URL than http://localhost:5000, update the API base URL in:
+If your backend runs on a different URL than <http://localhost:5000>, update the API base URL in:
 
 src/services/authService.ts
 
 src/services/taskService.ts
-
 
 ### 4.Running the Application
 
@@ -101,7 +102,7 @@ cd backend
 npm start
 ```
 
-Runs on: http://localhost:5000
+Runs on: <http://localhost:5000>
 
 #### Start Frontend Dev Server
 
@@ -110,12 +111,11 @@ cd ../frontend
 npm run dev
 ```
 
-Runs on: http://localhost:5173
-
+Runs on: <http://localhost:5173>
 
 ### 5. Usage
 
-- Open http://localhost:5173
+- Open <http://localhost:5173>
 - Register a new account or login with existing credentials
 - Create, edit, and manage your tasks
 - Toggle task status as pending/completed
@@ -127,7 +127,7 @@ Runs on: http://localhost:5173
 
 cd into your backend directory
 
-run 
+run
 
 ```bash
 npm test
@@ -158,7 +158,7 @@ npm test
 }
 ```
 
-##### Success Response (201 Created):
+##### Success Response (201 Created)
 
 ```JSON
 
@@ -172,7 +172,8 @@ npm test
 }
 ```
 
-##### Error Responses:
+##### Error Responses register
+
 - 400 Bad Request: Username or password missing
 - 400 Bad Request: User already exists
 
@@ -190,7 +191,8 @@ npm test
   "password": "string"
 }
 ```
-##### Success Response (200 OK):
+
+##### Success Response login (200 OK)
 
 ```JSON
 
@@ -204,14 +206,16 @@ npm test
 }
 ```
 
-##### Error Responses:
+##### Error Responses login
+
 - 400 Bad Request: Username or password missing
 - 401 Unauthorized: Invalid credentials
 
 ### Task Endpoints
-##### All task endpoints require authentication via JWT token in the Authorization header:
 
-```
+#### All task endpoints require authentication via JWT token in the Authorization header
+
+``` bash
 Authorization: Bearer <token>
 ```
 
@@ -221,7 +225,7 @@ Authorization: Bearer <token>
 - Description: Retrieves all tasks for the authenticated user
 - Authentication: Required
 
-##### Success Response (200 OK):
+##### Success Response get task (200 OK)
 
 ```JSON
 
@@ -241,7 +245,8 @@ Authorization: Bearer <token>
 }
 ```
 
-##### Error Responses:
+##### Error Responses get task
+
 - 401 Unauthorized: No token provided or invalid token
 
 #### Create a Task
@@ -260,7 +265,7 @@ Authorization: Bearer <token>
 }
 ```
 
-##### Success Response (201 Created):
+##### Success Response create task(201 Created)
 
 ```JSON
 
@@ -278,7 +283,8 @@ Authorization: Bearer <token>
 }
 ```
 
-##### Error Responses:
+##### Error Responses create task
+
 - 400 Bad Request: Title is missing
 - 401 Unauthorized: No token provided or invalid token
 
@@ -299,7 +305,7 @@ Authorization: Bearer <token>
 }
 ```
 
-##### Success Response (200 OK):
+##### Success Response update task(200 OK)
 
 ```JSON
 
@@ -317,7 +323,8 @@ Authorization: Bearer <token>
 }
 ```
 
-##### Error Responses:
+##### Error Responses update task
+
 - 401 Unauthorized: No token provided or invalid token
 - 403 Forbidden: User does not own the task
 - 404 Not Found: Task not found
@@ -329,7 +336,7 @@ Authorization: Bearer <token>
 - Authentication: Required
 - URL Parameters: id: Task ID
 
-##### Success Response (200 OK):
+##### Success Response delete task(200 OK)
 
 ```JSON
 
@@ -339,12 +346,14 @@ Authorization: Bearer <token>
 }
 ```
 
-##### Error Responses:
+##### Error Responses delete task
+
 - 401 Unauthorized: No token provided or invalid token
 - 403 Forbidden: User does not own the task
 - 404 Not Found: Task not found
   
 #### Error Response Format
+
 All API errors follow this format:
 
 ```JSON
@@ -356,9 +365,10 @@ All API errors follow this format:
 ```
 
 ### Authentication
+
 The API uses JWT (JSON Web Token) for authentication. After registering or logging in, you'll receive a token that should be included in the Authorization header for all protected endpoints:
 
-```
+``` bash
 Authorization: Bearer <your_token>
 ```
 
